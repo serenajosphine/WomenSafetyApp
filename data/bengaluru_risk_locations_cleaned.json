@@ -1,0 +1,1442 @@
+[
+  {
+    "id": 1,
+    "place_name": "Dommasandra",
+    "latitude": 12.8797,
+    "longitude": 77.7536,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 2,
+    "place_name": "Sompura",
+    "latitude": 13.0412,
+    "longitude": 77.4215,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 3,
+    "place_name": "Yamare",
+    "latitude": 12.8645,
+    "longitude": 77.7412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 4,
+    "place_name": "Thindlu",
+    "latitude": 13.0612,
+    "longitude": 77.5812,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 5,
+    "place_name": "Chikka Begur",
+    "latitude": 12.8689,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 6,
+    "place_name": "Amrita Nagar",
+    "latitude": 13.0567,
+    "longitude": 77.5923,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 7,
+    "place_name": "Reliable Tranquil Layout",
+    "latitude": 12.896,
+    "longitude": 77.6558,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 8,
+    "place_name": "Reliable Lakedew Residency",
+    "latitude": 12.9123,
+    "longitude": 77.6712,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 9,
+    "place_name": "Choodasandra",
+    "latitude": 12.8934,
+    "longitude": 77.6723,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 10,
+    "place_name": "Kasavanahalli",
+    "latitude": 12.9198,
+    "longitude": 77.6834,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 11,
+    "place_name": "Kudlu Gate",
+    "latitude": 12.9067,
+    "longitude": 77.6478,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 12,
+    "place_name": "Gattahalli",
+    "latitude": 12.8728,
+    "longitude": 77.6952,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 13,
+    "place_name": "Carmelaram Railway Station",
+    "latitude": 12.9278,
+    "longitude": 77.7012,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 14,
+    "place_name": "Ambalipura",
+    "latitude": 12.9234,
+    "longitude": 77.6834,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 15,
+    "place_name": "Mullur",
+    "latitude": 12.9345,
+    "longitude": 77.7212,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 16,
+    "place_name": "Chikkabellandur",
+    "latitude": 12.9123,
+    "longitude": 77.7123,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 17,
+    "place_name": "Kodathi",
+    "latitude": 12.8912,
+    "longitude": 77.7112,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 18,
+    "place_name": "Gunjur",
+    "latitude": 12.9478,
+    "longitude": 77.7523,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 19,
+    "place_name": "Varthur Lake",
+    "latitude": 12.9463,
+    "longitude": 77.7335,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 20,
+    "place_name": "Shigehalli",
+    "latitude": 12.9812,
+    "longitude": 77.7323,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 21,
+    "place_name": "Kalkere",
+    "latitude": 13.0234,
+    "longitude": 77.6912,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 22,
+    "place_name": "Hoskote–Malur Road",
+    "latitude": 13.0712,
+    "longitude": 77.7912,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 23,
+    "place_name": "Margondanahalli",
+    "latitude": 13.0112,
+    "longitude": 77.6812,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 24,
+    "place_name": "Sarjapur–Bagalur Road",
+    "latitude": 12.8812,
+    "longitude": 77.7312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 25,
+    "place_name": "Aavalahalli",
+    "latitude": 13.0456,
+    "longitude": 77.7589,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 26,
+    "place_name": "Hunasamaranahalli",
+    "latitude": 13.1412,
+    "longitude": 77.6112,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 27,
+    "place_name": "Bettahalasuru",
+    "latitude": 13.1512,
+    "longitude": 77.6312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 28,
+    "place_name": "Meenukunte Hosuru",
+    "latitude": 13.1612,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 29,
+    "place_name": "Sadahalli Gate",
+    "latitude": 13.1712,
+    "longitude": 77.6512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 30,
+    "place_name": "Bagalur",
+    "latitude": 13.1312,
+    "longitude": 77.6512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 31,
+    "place_name": "Kogilu Layout",
+    "latitude": 13.0789,
+    "longitude": 77.6012,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 32,
+    "place_name": "Hegde Nagar",
+    "latitude": 13.0567,
+    "longitude": 77.6234,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 33,
+    "place_name": "Rachenahalli Lake",
+    "latitude": 13.0456,
+    "longitude": 77.6234,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 34,
+    "place_name": "Thanisandra",
+    "latitude": 13.0512,
+    "longitude": 77.6324,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 35,
+    "place_name": "R.K. Hegde Nagar",
+    "latitude": 13.0612,
+    "longitude": 77.6234,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 36,
+    "place_name": "Doddabommasandra",
+    "latitude": 13.0412,
+    "longitude": 77.5612,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 37,
+    "place_name": "Jalahalli East",
+    "latitude": 13.0312,
+    "longitude": 77.5512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 38,
+    "place_name": "Abbigere",
+    "latitude": 13.0645,
+    "longitude": 77.5123,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 39,
+    "place_name": "Chikkabanavara",
+    "latitude": 13.0712,
+    "longitude": 77.4912,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 40,
+    "place_name": "MS Palya",
+    "latitude": 13.0812,
+    "longitude": 77.5512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 41,
+    "place_name": "Vidyaranyapura",
+    "latitude": 13.0712,
+    "longitude": 77.5612,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 42,
+    "place_name": "Ananth Nagar",
+    "latitude": 12.8312,
+    "longitude": 77.6812,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 43,
+    "place_name": "Byrathi",
+    "latitude": 13.0412,
+    "longitude": 77.6712,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 44,
+    "place_name": "Chelekare",
+    "latitude": 13.0312,
+    "longitude": 77.6512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 45,
+    "place_name": "Gottigere",
+    "latitude": 12.8612,
+    "longitude": 77.5912,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 46,
+    "place_name": "Doddakallasandra",
+    "latitude": 12.8812,
+    "longitude": 77.5512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 47,
+    "place_name": "Ganigarapalya",
+    "latitude": 12.8712,
+    "longitude": 77.5312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 48,
+    "place_name": "Uttarahalli",
+    "latitude": 12.9012,
+    "longitude": 77.5312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 49,
+    "place_name": "Vasanthapura",
+    "latitude": 12.9112,
+    "longitude": 77.5512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 50,
+    "place_name": "Subramanyapura",
+    "latitude": 12.8993,
+    "longitude": 77.5583,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 51,
+    "place_name": "Kumaraswamy Layout",
+    "latitude": 12.9012,
+    "longitude": 77.5712,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 52,
+    "place_name": "ISRO Layout",
+    "latitude": 12.9112,
+    "longitude": 77.5612,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 53,
+    "place_name": "Banashankari 5th Stage",
+    "latitude": 12.8812,
+    "longitude": 77.5412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 54,
+    "place_name": "Banashankari 3rd Stage",
+    "latitude": 12.9312,
+    "longitude": 77.5512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 55,
+    "place_name": "Kengeri Satellite Town",
+    "latitude": 12.9112,
+    "longitude": 77.4812,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 56,
+    "place_name": "Ullal Layout",
+    "latitude": 12.9512,
+    "longitude": 77.5012,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 57,
+    "place_name": "Mallathahalli Lake",
+    "latitude": 12.9612,
+    "longitude": 77.5112,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 58,
+    "place_name": "Vishweshwaraiah Layout",
+    "latitude": 12.9412,
+    "longitude": 77.4912,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 59,
+    "place_name": "Nagarbhavi 2nd Stage",
+    "latitude": 12.9512,
+    "longitude": 77.5112,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 60,
+    "place_name": "Kamaksipalya",
+    "latitude": 12.9712,
+    "longitude": 77.5312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 61,
+    "place_name": "Laggere",
+    "latitude": 13.0012,
+    "longitude": 77.5312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 62,
+    "place_name": "Peenya Industrial Area",
+    "latitude": 13.0298,
+    "longitude": 77.5255,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 63,
+    "place_name": "Nagasandra",
+    "latitude": 13.0412,
+    "longitude": 77.5112,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 64,
+    "place_name": "Bhattarahalli",
+    "latitude": 13.0112,
+    "longitude": 77.6812,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 65,
+    "place_name": "Medahalli",
+    "latitude": 13.0212,
+    "longitude": 77.7012,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 66,
+    "place_name": "Katamnallur Cross",
+    "latitude": 13.0312,
+    "longitude": 77.7212,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 67,
+    "place_name": "TC Palya",
+    "latitude": 13.0312,
+    "longitude": 77.6912,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 68,
+    "place_name": "Babusapalya",
+    "latitude": 13.0212,
+    "longitude": 77.6512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 69,
+    "place_name": "Ramamurthy Nagar",
+    "latitude": 13.0112,
+    "longitude": 77.6713,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 70,
+    "place_name": "Kaverappa Layout",
+    "latitude": 12.9312,
+    "longitude": 77.6312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 71,
+    "place_name": "HRBR Layout",
+    "latitude": 13.0212,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 72,
+    "place_name": "OMBR Layout",
+    "latitude": 13.0112,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 73,
+    "place_name": "GM Palya",
+    "latitude": 12.9712,
+    "longitude": 77.6612,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 74,
+    "place_name": "Malleshpalya",
+    "latitude": 12.9712,
+    "longitude": 77.6512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 75,
+    "place_name": "Vignana Nagar",
+    "latitude": 12.9612,
+    "longitude": 77.6712,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 76,
+    "place_name": "Jagadish Nagar",
+    "latitude": 12.9612,
+    "longitude": 77.6612,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 77,
+    "place_name": "LB Shastri Nagar",
+    "latitude": 12.9612,
+    "longitude": 77.6812,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 78,
+    "place_name": "B. Narayanapura",
+    "latitude": 12.9912,
+    "longitude": 77.6612,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 79,
+    "place_name": "Pai Layout",
+    "latitude": 12.9912,
+    "longitude": 77.6512,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 80,
+    "place_name": "Devarachikkanahalli",
+    "latitude": 12.8912,
+    "longitude": 77.6212,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 81,
+    "place_name": "Hongasandra",
+    "latitude": 12.9012,
+    "longitude": 77.6312,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 82,
+    "place_name": "Singasandra",
+    "latitude": 12.8712,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 83,
+    "place_name": "Bommasandra Industrial Area",
+    "latitude": 12.8197,
+    "longitude": 77.6835,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 84,
+    "place_name": "Jigani",
+    "latitude": 12.7812,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 85,
+    "place_name": "Silk Board Junction",
+    "latitude": 12.9177,
+    "longitude": 77.6236,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 86,
+    "place_name": "Dairy Circle",
+    "latitude": 12.943,
+    "longitude": 77.5985,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 87,
+    "place_name": "Koramangala BDA Complex",
+    "latitude": 12.9279,
+    "longitude": 77.6271,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 88,
+    "place_name": "Koramangala Regional Passport Office",
+    "latitude": 12.9348,
+    "longitude": 77.6256,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 89,
+    "place_name": "Veera Yodhara Udhyanavana",
+    "latitude": 12.9298,
+    "longitude": 77.6322,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 90,
+    "place_name": "KR Puram Railway Station",
+    "latitude": 13.0019,
+    "longitude": 77.6874,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 91,
+    "place_name": "Majestic – KSR Railway Station",
+    "latitude": 12.9781,
+    "longitude": 77.5713,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 92,
+    "place_name": "Yeshwanthpur Railway Station",
+    "latitude": 13.0248,
+    "longitude": 77.5524,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 93,
+    "place_name": "Goraguntepalya Junction",
+    "latitude": 13.0307,
+    "longitude": 77.5463,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 94,
+    "place_name": "Tin Factory Junction",
+    "latitude": 12.9922,
+    "longitude": 77.6601,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 95,
+    "place_name": "Hebbal Flyover",
+    "latitude": 13.0358,
+    "longitude": 77.597,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 96,
+    "place_name": "Kengeri TTMC",
+    "latitude": 12.9097,
+    "longitude": 77.4828,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 97,
+    "place_name": "Nayandahalli Metro Station",
+    "latitude": 12.9463,
+    "longitude": 77.5381,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 98,
+    "place_name": "Hulimavu",
+    "latitude": 12.8797,
+    "longitude": 77.6033,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 99,
+    "place_name": "Whitefield",
+    "latitude": 12.9698,
+    "longitude": 77.7499,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 100,
+    "place_name": "Electronic City Phase 2",
+    "latitude": 12.8398,
+    "longitude": 77.677,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 101,
+    "place_name": "Hoodi",
+    "latitude": 12.9912,
+    "longitude": 77.7126,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 102,
+    "place_name": "Kadugodi",
+    "latitude": 12.993,
+    "longitude": 77.7562,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 103,
+    "place_name": "Indiranagar 100 Feet Road",
+    "latitude": 12.9716,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 104,
+    "place_name": "Madiwala Market",
+    "latitude": 12.9165,
+    "longitude": 77.6185,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 105,
+    "place_name": "Tavarekere",
+    "latitude": 12.9242,
+    "longitude": 77.6083,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 106,
+    "place_name": "Marathahalli",
+    "latitude": 12.9591,
+    "longitude": 77.6974,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 107,
+    "place_name": "HSR Layout Sector 1",
+    "latitude": 12.9157,
+    "longitude": 77.6429,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 108,
+    "place_name": "Jayanagar 4th Block",
+    "latitude": 12.925,
+    "longitude": 77.5841,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 109,
+    "place_name": "Madiwala Lake",
+    "latitude": 12.913,
+    "longitude": 77.6202,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 110,
+    "place_name": "Brigade Road",
+    "latitude": 12.9739,
+    "longitude": 77.6075,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 111,
+    "place_name": "Hebbal Lake",
+    "latitude": 13.0456,
+    "longitude": 77.5878,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 112,
+    "place_name": "Lalbagh Botanical Garden",
+    "latitude": 12.9507,
+    "longitude": 77.5848,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 113,
+    "place_name": "Cubbon Park",
+    "latitude": 12.9698,
+    "longitude": 77.5879,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 114,
+    "place_name": "Outer Ring Road – Mahadevapura",
+    "latitude": 12.991,
+    "longitude": 77.6917,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 115,
+    "place_name": "NICE Road",
+    "latitude": 12.8982,
+    "longitude": 77.5024,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 116,
+    "place_name": "Hennur",
+    "latitude": 13.0356,
+    "longitude": 77.6412,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 117,
+    "place_name": "Sarjapur Road",
+    "latitude": 12.9261,
+    "longitude": 77.6834,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 118,
+    "place_name": "Yelahanka New Town",
+    "latitude": 13.1007,
+    "longitude": 77.5746,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 119,
+    "place_name": "Begur Road",
+    "latitude": 12.8754,
+    "longitude": 77.6358,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  },
+  {
+    "id": 120,
+    "place_name": "Budigere Cross",
+    "latitude": 13.0489,
+    "longitude": 77.7371,
+    "risk_reasons": [
+      "Poor street lighting",
+      "Low crowd density during nighttime"
+    ],
+    "category": "environmental_risk",
+    "verification_status": "unverified"
+  }
+]

@@ -1,0 +1,331 @@
+[
+  {
+    "id": 1,
+    "name": "Koramangala",
+    "latitude": 12.9352,
+    "longitude": 77.6245,
+    "reason": "Reported abduction, sexual assault, stalking and public harassment incidents"
+  },
+  {
+    "id": 2,
+    "name": "Jnanabharathi (Bangalore University)",
+    "latitude": 12.9463,
+    "longitude": 77.5034,
+    "reason": "Reported sexual assault, stalking and harassment incidents"
+  },
+  {
+    "id": 3,
+    "name": "Thalaghattapura",
+    "latitude": 12.8596,
+    "longitude": 77.5252,
+    "reason": "Reported cases of drug-facilitated assault"
+  },
+  {
+    "id": 4,
+    "name": "Electronic City",
+    "latitude": 12.8399,
+    "longitude": 77.677,
+    "reason": "Reported harassment and assault incidents in PG accommodations"
+  },
+  {
+    "id": 5,
+    "name": "HSR Layout",
+    "latitude": 12.9121,
+    "longitude": 77.6445,
+    "reason": "Reported residential intrusion, assault and passenger harassment"
+  },
+  {
+    "id": 6,
+    "name": "Madanayakanahalli",
+    "latitude": 13.0645,
+    "longitude": 77.4589,
+    "reason": "Reported group assault incidents"
+  },
+  {
+    "id": 7,
+    "name": "Ramamurthy Nagar",
+    "latitude": 13.0112,
+    "longitude": 77.6713,
+    "reason": "Reported trafficking, sexual exploitation and public harassment"
+  },
+  {
+    "id": 8,
+    "name": "Parappana Agrahara",
+    "latitude": 12.8809,
+    "longitude": 77.6534,
+    "reason": "Reported residential intrusion, assault and robbery"
+  },
+  {
+    "id": 9,
+    "name": "Jeevan Bima Nagar",
+    "latitude": 12.9628,
+    "longitude": 77.6496,
+    "reason": "Reported sexual assault cases"
+  },
+  {
+    "id": 10,
+    "name": "BTM Layout",
+    "latitude": 12.9165,
+    "longitude": 77.6101,
+    "reason": "Reported street harassment and physical assault"
+  },
+  {
+    "id": 11,
+    "name": "Attibele / Anekal",
+    "latitude": 12.7486,
+    "longitude": 77.6967,
+    "reason": "Reported assault incidents along moving-vehicle routes"
+  },
+  {
+    "id": 12,
+    "name": "Varthur",
+    "latitude": 12.9458,
+    "longitude": 77.7408,
+    "reason": "Reported harassment and sexual exploitation"
+  },
+  {
+    "id": 13,
+    "name": "Mahadevapura",
+    "latitude": 12.9912,
+    "longitude": 77.6894,
+    "reason": "Reported harassment and assault cases"
+  },
+  {
+    "id": 14,
+    "name": "Marathahalli",
+    "latitude": 12.9591,
+    "longitude": 77.6974,
+    "reason": "Reported workplace-related harassment and assault"
+  },
+  {
+    "id": 15,
+    "name": "Yelahanka",
+    "latitude": 13.1007,
+    "longitude": 77.5963,
+    "reason": "Reported unlawful confinement and harassment incidents"
+  },
+  {
+    "id": 16,
+    "name": "Bannerghatta Road",
+    "latitude": 12.8984,
+    "longitude": 77.5956,
+    "reason": "Reported public harassment and physical assault"
+  },
+  {
+    "id": 17,
+    "name": "Soladevanahalli",
+    "latitude": 13.1345,
+    "longitude": 77.4934,
+    "reason": "Reported student safety and assault concerns"
+  },
+  {
+    "id": 18,
+    "name": "Byadarahalli",
+    "latitude": 12.9834,
+    "longitude": 77.4989,
+    "reason": "Reported domestic violence and assault cases"
+  },
+  {
+    "id": 19,
+    "name": "Thavarekere",
+    "latitude": 12.9242,
+    "longitude": 77.6083,
+    "reason": "Reported stalking and isolated-road safety concerns"
+  },
+  {
+    "id": 20,
+    "name": "Avalahalli",
+    "latitude": 13.0456,
+    "longitude": 77.7589,
+    "reason": "Reported harassment incidents in residential areas"
+  },
+  {
+    "id": 21,
+    "name": "Kadugodi",
+    "latitude": 12.993,
+    "longitude": 77.7562,
+    "reason": "Reported women's safety and harassment complaints"
+  },
+  {
+    "id": 22,
+    "name": "Rajanakunte",
+    "latitude": 13.1934,
+    "longitude": 77.5612,
+    "reason": "Reported highway and isolated-layout safety concerns"
+  },
+  {
+    "id": 23,
+    "name": "Kumbalagudu",
+    "latitude": 12.8872,
+    "longitude": 77.4298,
+    "reason": "Reported assault cases in industrial areas"
+  },
+  {
+    "id": 24,
+    "name": "Hennur",
+    "latitude": 13.0356,
+    "longitude": 77.6412,
+    "reason": "Reported digital stalking and physical harassment"
+  },
+  {
+    "id": 25,
+    "name": "Govindapura",
+    "latitude": 13.0312,
+    "longitude": 77.6189,
+    "reason": "Reported domestic violence and neighbourhood assaults"
+  },
+  {
+    "id": 26,
+    "name": "Ullal Main Road / Gnanajyothi Nagar",
+    "latitude": 12.9534,
+    "longitude": 77.5089,
+    "reason": "Reported stalking, physical harassment and assault"
+  },
+  {
+    "id": 27,
+    "name": "Domlur / Hosur Road / Ejipura",
+    "latitude": 12.9612,
+    "longitude": 77.6389,
+    "reason": "Reported assault incidents along a moving-vehicle route"
+  },
+  {
+    "id": 28,
+    "name": "Koramangala 3rd Block",
+    "latitude": 12.9308,
+    "longitude": 77.6294,
+    "reason": "Reported road rage, intimidation and property damage"
+  },
+  {
+    "id": 29,
+    "name": "Sarjapur Road",
+    "latitude": 12.9261,
+    "longitude": 77.6834,
+    "reason": "Reported commuter stalking, intimidation and road harassment"
+  },
+  {
+    "id": 30,
+    "name": "Namma Metro Station / Train (MG Road Station Hub)",
+    "latitude": 12.9756,
+    "longitude": 77.6068,
+    "reason": "Reported non-consensual recording and harassment"
+  },
+  {
+    "id": 31,
+    "name": "Kothanur",
+    "latitude": 13.0612,
+    "longitude": 77.6389,
+    "reason": "Reported discriminatory harassment and physical intimidation"
+  },
+  {
+    "id": 32,
+    "name": "Vasanth Nagar",
+    "latitude": 12.9898,
+    "longitude": 77.5898,
+    "reason": "Reported group intimidation, assault and property damage"
+  },
+  {
+    "id": 33,
+    "name": "Central Silk Board Junction",
+    "latitude": 12.9177,
+    "longitude": 77.6236,
+    "reason": "Poorly lit pedestrian areas and reported harassment concerns"
+  },
+  {
+    "id": 34,
+    "name": "Dairy Circle Road Flyover",
+    "latitude": 12.943,
+    "longitude": 77.5985,
+    "reason": "Reported street harassment and stalking"
+  },
+  {
+    "id": 35,
+    "name": "Koramangala BDA Complex",
+    "latitude": 12.9279,
+    "longitude": 77.6271,
+    "reason": "Reported intimidation of women drivers"
+  },
+  {
+    "id": 36,
+    "name": "Koramangala Regional Passport Office Stretch",
+    "latitude": 12.9348,
+    "longitude": 77.6256,
+    "reason": "Poor lighting and reported stalking concerns"
+  },
+  {
+    "id": 37,
+    "name": "Veera Yodhara Udhyanavana, Koramangala",
+    "latitude": 12.9298,
+    "longitude": 77.6322,
+    "reason": "Reported verbal harassment along walking paths"
+  },
+  {
+    "id": 38,
+    "name": "Grape Garden, Koramangala",
+    "latitude": 12.9265,
+    "longitude": 77.6312,
+    "reason": "Reported group intimidation and stalking"
+  },
+  {
+    "id": 39,
+    "name": "Madiwala Market Street",
+    "latitude": 12.9165,
+    "longitude": 77.6185,
+    "reason": "Reported public harassment and unwanted physical contact"
+  },
+  {
+    "id": 40,
+    "name": "Spurthy Hospital Stretch, Tavarekere",
+    "latitude": 12.9234,
+    "longitude": 77.6098,
+    "reason": "Reported stalking near PG accommodations"
+  },
+  {
+    "id": 41,
+    "name": "MG Road",
+    "latitude": 12.9758,
+    "longitude": 77.6091,
+    "reason": "Reported mass public harassment during New Year's Eve celebrations"
+  },
+  {
+    "id": 42,
+    "name": "Brigade Road Junction",
+    "latitude": 12.9739,
+    "longitude": 77.6075,
+    "reason": "Reported crowd-related harassment incidents"
+  },
+  {
+    "id": 43,
+    "name": "Peenya Industrial Area",
+    "latitude": 13.0298,
+    "longitude": 77.5255,
+    "reason": "Reported assaults and harassment involving women workers"
+  },
+  {
+    "id": 44,
+    "name": "Subramanyapura Outer Roads",
+    "latitude": 12.8993,
+    "longitude": 77.5583,
+    "reason": "Reported public harassment and stalking"
+  },
+  {
+    "id": 45,
+    "name": "Indiranagar 100 Feet Road",
+    "latitude": 12.9716,
+    "longitude": 77.6412,
+    "reason": "Reported road rage, intimidation and physical harassment"
+  },
+  {
+    "id": 46,
+    "name": "Malleswaram Residential Streets",
+    "latitude": 13.0031,
+    "longitude": 77.5684,
+    "reason": "Reported road rage and intimidation of women drivers"
+  },
+  {
+    "id": 47,
+    "name": "Jayanagar 4th Block Outer Roads",
+    "latitude": 12.925,
+    "longitude": 77.5841,
+    "reason": "Reported public stalking and harassment near metro access roads"
+  }
+]
