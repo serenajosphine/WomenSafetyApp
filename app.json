@@ -1,4 +1,3 @@
-
 {
   "expo": {
     "name": "WomenSafetyApp",
@@ -38,6 +37,13 @@
           "backgroundColor": "#208AEF",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
+        }
+      ],
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Allow WomenSafetyApp to use the microphone for voice input.",
+          "speechRecognitionPermission": "Allow WomenSafetyApp to recognize your spoken starting location."
         }
       ],
       "expo-audio",
