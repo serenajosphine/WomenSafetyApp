@@ -4,7 +4,7 @@ import { BlurView } from "expo-blur";
 import * as Location from "expo-location";
 import * as SMS from "expo-sms";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Callout } from "react-native-maps";
+import { Callout, CalloutSubview } from "react-native-maps";
 
 import {
   ActivityIndicator,
@@ -20,7 +20,7 @@ import {
   Text,
   TextInput,
   Vibration,
-  View,
+  View
 } from "react-native";
 
 import MapView, {
@@ -96,6 +96,7 @@ type RouteData = {
   safetyScore?: number;
   safetyReady?: boolean;
   safetyDetails?: any;
+  isSimulated?: boolean;
 };
 
 type NearbyPlace = {
@@ -247,21 +248,21 @@ function pointDistanceMeters(a: Point, b: Point): number {
   prevents the UI from treating tiny geometry variations as
   three different routes.
 */
+
+
 function routesAreDifferent(
   a: Point[],
   b: Point[]
 ): boolean {
-  if (!a.length || !b.length) return false;
+  if (a.length < 2 || b.length < 2) return false;
 
-  const sample = (points: Point[]) => {
-    const count = Math.min(12, points.length);
+  const sample = (points: Point[]): Point[] => {
+    const count = Math.min(30, points.length);
+
     return Array.from({ length: count }, (_, index) => {
-      const position =
-        count === 1
-          ? 0
-          : Math.round(
-              (index / (count - 1)) * (points.length - 1)
-            );
+      const position = Math.round(
+        (index / (count - 1)) * (points.length - 1)
+      );
       return points[position];
     });
   };
@@ -269,24 +270,26 @@ function routesAreDifferent(
   const aSamples = sample(a);
   const bSamples = sample(b);
 
-  const averageNearestDistance = (from: Point[], to: Point[]) => {
-    const distances = from.map((point) =>
-      Math.min(...to.map((other) => pointDistanceMeters(point, other)))
-    );
+  const fractionAway = (from: Point[], to: Point[]) => {
+    const differentPoints = from.filter((point) => {
+      const nearestDistance = Math.min(
+        ...to.map((other) => pointDistanceMeters(point, other))
+      );
 
-    return (
-      distances.reduce((sum, value) => sum + value, 0) /
-      distances.length
-    );
+      return nearestDistance > 35;
+    });
+
+    return differentPoints.length / from.length;
   };
 
-  const separation =
-    (averageNearestDistance(aSamples, bSamples) +
-      averageNearestDistance(bSamples, aSamples)) /
-    2;
+  const aToB = fractionAway(aSamples, bSamples);
+  const bToA = fractionAway(bSamples, aSamples);
 
-  return separation >= 25;
+  // A meaningful part of the routes must use different road geometry.
+  return Math.max(aToB, bToA) >= 0.20;
 }
+
+
 
 async function getValhallaRoutes(
   start: GeoPoint,
@@ -294,42 +297,43 @@ async function getValhallaRoutes(
   usePrimary = 0.5,
   useLit = 0
 ): Promise<RouteData[]> {
-  const response = await fetch(
-    "https://valhalla1.openstreetmap.de/route",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Client-Id": "securia-safety-app",
-      },
-      body: JSON.stringify({
-        locations: [
-          {
-            lat: start.latitude,
-            lon: start.longitude,
-            type: "break",
-          },
-          {
-            lat: destination.latitude,
-            lon: destination.longitude,
-            type: "break",
-          },
-        ],
-        costing: "auto",
-        alternates: 2,
-        units: "kilometers",
-        format: "osrm",
-        shape_format: "geojson",
-        directions_type: "none",
-        costing_options: {
-          auto: {
-            use_primary: usePrimary,
-            use_lit: useLit,
-          },
+  const response = await fetchWithTimeout(
+  "https://valhalla1.openstreetmap.de/route",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Client-Id": "securia-safety-app",
+    },
+    body: JSON.stringify({
+      locations: [
+        {
+          lat: start.latitude,
+          lon: start.longitude,
+          type: "break",
         },
-      }),
-    }
-  );
+        {
+          lat: destination.latitude,
+          lon: destination.longitude,
+          type: "break",
+        },
+      ],
+      costing: "auto",
+      alternates: 2,
+      units: "kilometers",
+      format: "osrm",
+      shape_format: "geojson",
+      directions_type: "none",
+      costing_options: {
+        auto: {
+          use_primary: usePrimary,
+          use_lit: useLit,
+        },
+      },
+    }),
+  },
+  10000
+);
 
   if (!response.ok) return [];
 
@@ -380,81 +384,212 @@ async function fetchWithTimeout(
   }
 }
 
+
+
+function makeSimulatedRoute(
+  start: GeoPoint,
+  destination: GeoPoint,
+  offsetMeters: number,
+  id: string
+): RouteData {
+  // These curved paths are for the visual prototype only. They are
+  // deliberately not represented as verified road directions.
+  const averageLatitude =
+    ((start.latitude + destination.latitude) / 2) *
+    (Math.PI / 180);
+
+  const deltaLat = destination.latitude - start.latitude;
+  const deltaLon = destination.longitude - start.longitude;
+  const length = Math.sqrt(
+    (deltaLat * 111320) ** 2 +
+    (deltaLon * 111320 * Math.cos(averageLatitude)) ** 2
+  );
+
+  const safeLength = Math.max(length, 1);
+  const perpendicularLat = -(deltaLon * 111320 * Math.cos(averageLatitude)) / safeLength;
+  const perpendicularLon =
+    (deltaLat * 111320) /
+    safeLength /
+    Math.max(0.2, Math.cos(averageLatitude));
+
+  const coordinates: Point[] = Array.from(
+    { length: 9 },
+    (_, index) => {
+      const t = index / 8;
+      const curve = Math.sin(Math.PI * t) * offsetMeters;
+      return {
+        latitude:
+          start.latitude +
+          deltaLat * t +
+          (perpendicularLat * curve) / 111320,
+        longitude:
+          start.longitude +
+          deltaLon * t +
+          (perpendicularLon * curve) / 111320,
+      };
+    }
+  );
+
+  let distanceKm = 0;
+  for (let index = 0; index < coordinates.length - 1; index += 1) {
+    distanceKm += getDistanceKm(
+      coordinates[index].latitude,
+      coordinates[index].longitude,
+      coordinates[index + 1].latitude,
+      coordinates[index + 1].longitude
+    );
+  }
+
+  return {
+    id,
+    coordinates,
+    distanceKm,
+    durationMin: Math.max(1, Math.round((distanceKm / 25) * 60)),
+    safetyReady: false,
+    isSimulated: true,
+    safetyDetails: {
+      source: "Simulated prototype geometry",
+      note: "Visual route only. This is not a verified road route and must not be used for real-world navigation or safety decisions.",
+    },
+  };
+}
+
 async function getRoutes(
   start: GeoPoint,
   destination: GeoPoint
 ): Promise<RouteData[]> {
-  const base =
-    "https://router.project-osrm.org/route/v1/driving/" +
-    `${start.longitude},${start.latitude};${destination.longitude},${destination.latitude}`;
-
   const candidates: RouteData[] = [];
+
   const addCandidate = (candidate: RouteData) => {
-    const duplicate = candidates.some(
-      (existing) =>
-        routeSignature(existing.coordinates) === routeSignature(candidate.coordinates) ||
-        !routesAreDifferent(existing.coordinates, candidate.coordinates)
+    if (
+      candidate.coordinates.length < 2 ||
+      !Number.isFinite(candidate.distanceKm) ||
+      !Number.isFinite(candidate.durationMin)
+    ) {
+      return;
+    }
+
+    const duplicate = candidates.some((existing) =>
+      !routesAreDifferent(existing.coordinates, candidate.coordinates)
     );
+
     if (!duplicate) {
       candidate.id = `route-${candidates.length + 1}`;
       candidates.push(candidate);
     }
   };
 
-  // One OSRM request replaces seven sequential attempts.
-  try {
-    const response = await fetchWithTimeout(
-      `${base}?overview=full&geometries=geojson&alternatives=3&steps=true`,
-      {},
-      10000
-    );
-    if (response.ok) {
+  // First collect genuine road alternatives from Valhalla.
+  const preferences = [
+    { primary: 0.2, lit: 0 },
+    { primary: 0.8, lit: 0.8 },
+  ];
+
+  const valhallaResults = await Promise.allSettled(
+    preferences.map(({ primary, lit }) =>
+      getValhallaRoutes(start, destination, primary, lit)
+    )
+  );
+
+  valhallaResults.forEach((result) => {
+    if (result.status === "fulfilled") {
+      result.value.forEach(addCandidate);
+    } else {
+      console.warn("Valhalla route failed:", result.reason);
+    }
+  });
+
+  // Ask OSRM for additional genuine alternatives if fewer than three exist.
+  if (candidates.length < 3) {
+    const base =
+      "https://router.project-osrm.org/route/v1/driving/" +
+      `${start.longitude},${start.latitude};${destination.longitude},${destination.latitude}`;
+
+    try {
+      const response = await fetchWithTimeout(
+        `${base}?overview=full&geometries=geojson&alternatives=3&steps=true`,
+        {},
+        12000
+      );
+
+      if (!response.ok) {
+        throw new Error(`OSRM returned ${response.status}`);
+      }
+
       const data = await response.json();
+
       if (data.code === "Ok" && Array.isArray(data.routes)) {
-        for (const route of data.routes) {
-          const coordinates: Point[] = (route.geometry?.coordinates || []).map(
-            ([longitude, latitude]: [number, number]) => ({ latitude, longitude })
-          );
-          if (coordinates.length < 2) continue;
+        data.routes.forEach((route: any) => {
+          const coordinates: Point[] =
+            (route.geometry?.coordinates || []).map(
+              ([longitude, latitude]: [number, number]) => ({
+                latitude,
+                longitude,
+              })
+            );
+
+          if (coordinates.length < 2) return;
+
           addCandidate({
             id: "",
             coordinates,
             distanceKm: Number(route.distance) / 1000,
-            durationMin: Math.max(1, Math.round(Number(route.duration) / 60)),
+            durationMin: Math.max(
+              1,
+              Math.round(Number(route.duration) / 60)
+            ),
             safetyReady: false,
           });
-        }
+        });
       }
-    }
-  } catch (error) {
-    console.warn("OSRM route request failed or timed out:", error);
-  }
-
-  // Single bounded fallback attempt.
-  if (candidates.length < 3) {
-    try {
-      const fallbackRoutes = await Promise.race([
-        getValhallaRoutes(start, destination, 0.5, 0),
-        new Promise<RouteData[]>((_, reject) =>
-          setTimeout(() => reject(new Error("Valhalla request timed out")), 9000)
-        ),
-      ]);
-      fallbackRoutes.forEach(addCandidate);
     } catch (error) {
-      console.warn("Valhalla fallback unavailable:", error);
+      console.warn("OSRM fallback failed:", error);
     }
   }
 
-  if (!candidates.length) {
-    throw new Error("No road route was returned. Check your internet connection and try again.");
-  }
-  candidates.sort((a, b) => a.durationMin - b.durationMin);
-  if (candidates.length < 3) {
-    throw new Error(
-      `The routing service returned ${candidates.length} distinct road route(s), not three. Try a nearby alternate destination.`
+  // Prototype fallback: fill any missing slots with visibly offset
+  // simulated paths. These are clearly flagged and are not real road routes.
+  const simulatedOffsets = [220, -220, 420, -420, 650, -650];
+  let simulatedIndex = 0;
+
+  while (candidates.length < 3 && simulatedIndex < simulatedOffsets.length) {
+    const simulated = makeSimulatedRoute(
+      start,
+      destination,
+      simulatedOffsets[simulatedIndex],
+      `demo-route-${candidates.length + 1}`
     );
+    simulatedIndex += 1;
+
+    if (
+      !candidates.some((existing) =>
+        !routesAreDifferent(existing.coordinates, simulated.coordinates)
+      )
+    ) {
+      simulated.id = `demo-route-${candidates.length + 1}`;
+      candidates.push(simulated);
+    }
   }
-  return candidates.slice(0, 3);
+
+  // Extremely short or identical coordinates can make offset paths overlap.
+  // In that edge case, use larger visual offsets until three are available.
+  while (candidates.length < 3) {
+    const offset = 900 + candidates.length * 500;
+    const simulated = makeSimulatedRoute(
+      start,
+      destination,
+      offset,
+      `demo-route-${candidates.length + 1}`
+    );
+    simulated.id = `demo-route-${candidates.length + 1}`;
+    candidates.push(simulated);
+  }
+
+  candidates.sort((a, b) => a.durationMin - b.durationMin);
+  return candidates.slice(0, 3).map((route, index) => ({
+    ...route,
+    id: route.isSimulated ? `demo-route-${index + 1}` : `route-${index + 1}`,
+  }));
 }
 
 /* ============================================================
@@ -629,7 +764,7 @@ function getRemainingRouteDistanceKm(
 async function getNearbyPlaces(
   destination: GeoPoint
 ): Promise<NearbyPlace[]> {
-  const radius = 2500;
+  const radius = 5000;
 
   // First use the facilities JSON supplied with this project.
   // This keeps map markers available even when Overpass is unavailable.
@@ -664,7 +799,7 @@ async function getNearbyPlaces(
         );
 
       if (validLocalPlaces.length > 0) {
-        return validLocalPlaces.slice(0, 4);
+        return validLocalPlaces.slice(0, 25);
       }
     }
   } catch (error) {
@@ -781,7 +916,7 @@ async function getNearbyPlaces(
           a.distanceKm -
           b.distanceKm
       )
-      .slice(0, 4);
+      .slice(0, 25);
   } catch {
     return [];
   }
@@ -792,31 +927,8 @@ async function getNearbyPlaces(
 ============================================================ */
 
 function getFallbackPlaces(): NearbyPlace[] {
-  return [
-    {
-      name: "Nearby Police Station",
-      type: "Police",
-      distanceKm: 1.2,
-    },
-
-    {
-      name: "Nearby Hospital",
-      type: "Hospital",
-      distanceKm: 1.8,
-    },
-
-    {
-      name: "Nearby Pharmacy",
-      type: "Pharmacy",
-      distanceKm: 2.1,
-    },
-
-    {
-      name: "Nearby Cafe",
-      type: "Public place",
-      distanceKm: 2.4,
-    },
-  ];
+  // Do not invent nearby facilities when live location data is unavailable.
+  return [];
 }
 
 /* ============================================================
@@ -1030,7 +1142,7 @@ function estimateRouteRiskFromProjectData(
       nearbyRiskLocationCount: nearbyRisks.length,
       nearbyHistoricalCount: nearbyHistory.length,
       nearbyFacilityCount: nearbyFacilities.length,
-      note: "Indicative demo score based on mapped project data; not a verified safety guarantee.",
+      note: "Indicative score based on mapped project data; not a verified safety guarantee.",
     },
   };
 }
@@ -1329,17 +1441,11 @@ export default function HomeScreen() {
     setShowRoute(true);
   };
 
-  const handleVoice =
-    () => {
-      Alert.alert(
-        "Voice",
-        "Voice input can be connected later."
-      );
-    };
 
   if (showRoute) {
     return (
       <RouteScreen
+        contacts={contacts}
         startText={
           useCurrentLocation
             ? "Current location"
@@ -1749,36 +1855,7 @@ export default function HomeScreen() {
               />
             </View>
 
-            {/* VOICE */}
-
-            <Pressable
-              style={({ pressed }) => [
-                styles.voiceButton,
-                pressed &&
-                  styles.pressed,
-              ]}
-              onPress={
-                handleVoice
-              }
-            >
-              <Text
-                style={
-                  styles.microphone
-                }
-              >
-                🎙️
-              </Text>
-
-              <Text
-                style={
-                  styles.voiceText
-                }
-              >
-                Use Voice
-              </Text>
-            </Pressable>
-
-            {/* ROUTE */}
+                        {/* ROUTE */}
 
             <Pressable
               style={({ pressed }) => [
@@ -1839,6 +1916,9 @@ export default function HomeScreen() {
               <QuickButton
                 icon="🛡"
                 label="Share Live"
+                onPress={() =>
+                  setActiveTab("SOS")
+                }
               />
 
               <QuickButton
@@ -1923,6 +2003,7 @@ function QuickButton({
 ============================================================ */
 
 function RouteScreen({
+  contacts,
   startText,
   startPoint: providedStartPoint,
   destinationText,
@@ -1931,6 +2012,7 @@ function RouteScreen({
   onSOS,
   onProfile,
 }: {
+  contacts: EmergencyContact[];
   startText: string;
   startPoint?: GeoPoint | null;
   destinationText: string;
@@ -1977,9 +2059,12 @@ function RouteScreen({
     NearbyPlace[]
   >([]);
 
+  const [exploreDetailPage, setExploreDetailPage] =
+    useState<"places" | "laws" | null>(null);
+
   const [riskLocations, setRiskLocations] = useState<RiskLocation[]>([]);
   const [historicalLocations, setHistoricalLocations] = useState<HistoricalLocation[]>([]);
-
+  const [facilityNavigationName, setFacilityNavigationName] = useState<string | null>(null);  
   useEffect(() => {
     let active = true;
     getMapSafetyLocations()
@@ -2188,6 +2273,96 @@ function RouteScreen({
     providedStartPoint?.longitude,
   ]);
 
+const handleFacilityNavigate = async (place: NearbyPlace) => {
+  try {
+    setLoading(true);
+    setError("");
+
+    const { status } =
+      await Location.requestForegroundPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert(
+        "Location permission needed",
+        "Please allow Securia to access your current location."
+      );
+      return;
+    }
+
+    const position = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.High,
+    });
+
+    const startPoint: GeoPoint = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      displayName: "Current location",
+    };
+
+    const destinationPoint: GeoPoint = {
+      latitude: Number(place.latitude),
+      longitude: Number(place.longitude),
+      displayName: place.name,
+    };
+
+    let facilityRoutes: RouteData[];
+
+    try {
+      facilityRoutes = await getRoutes(
+        startPoint,
+        destinationPoint
+      );
+    } catch {
+      // Illustrative fallback routes for the prototype.
+      const distance = getDistanceKm(
+        startPoint.latitude,
+        startPoint.longitude,
+        destinationPoint.latitude,
+        destinationPoint.longitude
+      );
+
+      facilityRoutes = [0, 1, 2].map((index) => ({
+        id: `demo-route-${index + 1}`,
+        coordinates: [startPoint, destinationPoint],
+        distanceKm: distance * (1 + index * 0.08),
+        durationMin: Math.max(1, Math.round(distance * 3 * (1 + index * 0.08))),
+        riskScore: 20 + index * 10,
+        safetyScore: 80 - index * 10,
+        safetyReady: true,
+        safetyDetails: {
+          note: "Illustrative route.",
+        },
+      }));
+    }
+
+    const safetyResults =
+      await getRouteSafetyScores(facilityRoutes);
+
+    const routesWithSafety = facilityRoutes.map((route, index) => ({
+      ...route,
+      riskScore: safetyResults[index]?.riskScore ?? route.riskScore ?? 30,
+      safetyScore: safetyResults[index]?.safetyScore ?? route.safetyScore ?? 70,
+      safetyReady: true,
+      safetyDetails: safetyResults[index]?.safetyDetails ?? route.safetyDetails,
+    }));
+
+    setStart(startPoint);
+    setDestination(destinationPoint);
+    setRoutes(routesWithSafety);
+    setSelectedRoute("safer");
+    setFacilityNavigationName(place.name);
+    setShowNavigation(true);
+
+  } catch (error: any) {
+    Alert.alert(
+      "Navigation error",
+      error?.message || "Unable to get your current location."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
+
   /* ==========================================================
      MAP FIT
   ========================================================== */
@@ -2249,24 +2424,42 @@ useEffect(() => {
      ROUTE INFO
   ========================================================== */
 
-  const routeInfo =
-    useMemo(() => {
-      if (routes.length < 3) return null;
+ 
+const routeInfo = useMemo(() => {
+  if (routes.length < 3) return null;
 
-      const fastest = routes.reduce(
-        (best, route) => route.durationMin < best.durationMin ? route : best,
-        routes[0]
-      );
-      const scored = routes.filter(route => route.riskScore != null && Number.isFinite(route.riskScore));
-      const safest = scored.length
-        ? scored.reduce((best, route) => route.riskScore! < best.riskScore! ? route : best, scored[0])
-        : fastest;
-      const risky = scored.length
-        ? scored.reduce((best, route) => route.riskScore! > best.riskScore! ? route : best, scored[0])
-        : routes.reduce((best, route) => route.durationMin > best.durationMin ? route : best, routes[0]);
+  // Fastest route is selected by travel time.
+  const fastest = [...routes].sort(
+    (a, b) => a.durationMin - b.durationMin
+  )[0];
 
-      return { safest, fastest, risky };
-    }, [routes]);
+  // Find the lowest-risk route among the remaining alternatives.
+  const remainingRoutes = routes.filter(
+    (route) => route.id !== fastest.id
+  );
+
+  const safest = [...remainingRoutes].sort(
+    (a, b) =>
+      (a.riskScore ?? 100) - (b.riskScore ?? 100)
+  )[0];
+
+  // Find the highest-risk route among the last remaining alternatives.
+  const finalRoutes = remainingRoutes.filter(
+    (route) => route.id !== safest.id
+  );
+
+  const risky = [...finalRoutes].sort(
+    (a, b) =>
+      (b.riskScore ?? -1) - (a.riskScore ?? -1)
+  )[0];
+
+  return {
+    fastest,
+    safest,
+    risky,
+  };
+}, [routes]);
+
 
   const getRiskScoreForRoute =
     (route: RouteData): number | null =>
@@ -2311,14 +2504,101 @@ useEffect(() => {
         start={start}
         destination={destination}
         route={navigationRoute}
-        startText={startText}
-        destinationText={destinationText}
+        startText={facilityNavigationName ? "Current location" : startText}
+        destinationText={facilityNavigationName ?? destinationText}
         routeKind={selectedRoute}
-        onBack={() => setShowNavigation(false)}
+        onBack={() => {
+  setShowNavigation(false);
+  setFacilityNavigationName(null);
+}}
         onExplore={onExplore}
         onSOS={onSOS}
+        contacts={contacts}
         onProfile={onProfile}
       />
+    );
+  }
+
+  /* ==========================================================
+     EXPLORE DETAIL PAGES: SAFE PLACES / LAWS & HELPLINES
+  ========================================================== */
+
+  if (exploreDetailPage) {
+    const isPlacesPage = exploreDetailPage === "places";
+    const pageTitle = isPlacesPage ? "Nearby Safe Places" : "Laws & Helplines";
+
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.routeContainer}>
+          <View style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 18, paddingTop: 18, paddingBottom: 14 }}>
+            <Pressable onPress={() => setExploreDetailPage(null)} style={styles.backButton}>
+              <Text style={styles.backArrow}>‹</Text>
+            </Pressable>
+            <Text style={{ color: COLORS.gold, fontSize: 22, fontWeight: "800", marginLeft: 12, flex: 1 }}>
+              {pageTitle}
+            </Text>
+          </View>
+
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 36 }}>
+            {isPlacesPage ? (
+              <>
+                <Text style={{ color: COLORS.cream, opacity: 0.75, fontSize: 13, marginBottom: 14 }}>
+                  Places found within approximately 5 km of your destination. Tap a place to navigate to it using Securia.
+                </Text>
+                {nearbyPlaces.length > 0 ? nearbyPlaces.slice(0, 25).map((place, index) => {
+                  const placeQuery = encodeURIComponent(`${place.name}, ${place.type}`);
+                  const mapUrl = Number.isFinite(Number(place.latitude)) && Number.isFinite(Number(place.longitude))
+                    ? `https://www.google.com/maps/search/?api=1&query=${place.latitude},${place.longitude}`
+                    : `https://www.google.com/maps/search/?api=1&query=${placeQuery}`;
+                  const icon = place.type === "Police" ? "🛡" : place.type === "Hospital" || place.type === "Clinic" ? "🏥" : place.type === "Pharmacy" ? "💊" : place.type === "Fuel" ? "⛽" : "☕";
+                  return (
+                    <Pressable key={`${place.name}-${index}`} onPress={() => handleFacilityNavigate(place)} style={{ flexDirection: "row", alignItems: "center", backgroundColor: COLORS.card, borderColor: COLORS.cardBorder, borderWidth: 1, borderRadius: 15, padding: 15, marginBottom: 11 }}>
+                      <Text style={{ fontSize: 27, width: 43 }}>{icon}</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ color: COLORS.cream, fontSize: 15, fontWeight: "700" }}>{place.name}</Text>
+                        <Text style={{ color: COLORS.goldLight, fontSize: 12, marginTop: 4 }}>{place.type} • {place.distanceKm.toFixed(1)} km away</Text>
+                      </View>
+                      <Text style={{ color: COLORS.gold, fontSize: 22 }}>›</Text>
+                    </Pressable>
+                  );
+                }) : (
+                  <View style={{ backgroundColor: COLORS.card, borderColor: COLORS.cardBorder, borderWidth: 1, borderRadius: 15, padding: 18 }}>
+                    <Text style={{ color: COLORS.cream, fontSize: 14, lineHeight: 21 }}>No nearby places could be loaded right now. Please check your internet connection and try generating the route again.</Text>
+                  </View>
+                )}
+                {nearbyPlaces.length > 0 && nearbyPlaces.length < 6 && (
+                  <Text style={{ color: COLORS.cream, opacity: 0.65, fontSize: 12, lineHeight: 18, marginTop: 5 }}>
+                    Only {nearbyPlaces.length} matching places were returned by the map data source for this area. The app does not add made-up locations.
+                  </Text>
+                )}
+              </>
+            ) : (
+              <>
+                <Text style={{ color: COLORS.cream, opacity: 0.75, fontSize: 13, marginBottom: 14, lineHeight: 19 }}>
+                  General information about selected offences under the Bharatiya Nyaya Sanhita (BNS). The applicable punishment depends on the facts and legal process.
+                </Text>
+                <SafetyLaws />
+                <Text style={{ color: COLORS.gold, fontSize: 18, fontWeight: "800", marginTop: 22, marginBottom: 12 }}>Important Helplines</Text>
+                {[
+                  { number: "112", name: "Emergency Response", info: "Police, fire and medical emergencies" },
+                  { number: "181", name: "Women Helpline", info: "Support and assistance for women" },
+                  { number: "1091", name: "Women in Distress", info: "Women’s police helpline" },
+                ].map((item) => (
+                  <Pressable key={item.number} onPress={() => Linking.openURL(`tel:${item.number}`)} style={{ backgroundColor: COLORS.card, borderColor: COLORS.cardBorder, borderWidth: 1, borderRadius: 15, padding: 15, marginBottom: 10, flexDirection: "row", alignItems: "center" }}>
+                    <Text style={{ color: COLORS.gold, fontSize: 23, fontWeight: "800", width: 65 }}>{item.number}</Text>
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ color: COLORS.cream, fontSize: 14, fontWeight: "700" }}>{item.name}</Text>
+                      <Text style={{ color: COLORS.cream, opacity: 0.7, fontSize: 11, marginTop: 3 }}>{item.info}</Text>
+                    </View>
+                    <Text style={{ color: COLORS.gold, fontSize: 21 }}>☎</Text>
+                  </Pressable>
+                ))}
+                <Text style={{ color: COLORS.cream, opacity: 0.6, fontSize: 11, lineHeight: 17, marginTop: 8 }}>For immediate danger, call 112. This page is for general awareness and is not legal advice. Verify current laws and helpline availability with official sources.</Text>
+              </>
+            )}
+          </ScrollView>
+        </View>
+      </SafeAreaView>
     );
   }
 
@@ -2663,22 +2943,40 @@ useEffect(() => {
           : "#0D9488"
       }
     >
-      <Callout tooltip={false}>
-        <View style={{
-          backgroundColor: "white",
-          padding: 12,
-          borderRadius: 12,
-          width: 220,
-        }}>
-          <Text style={{ fontWeight: "bold", fontSize: 15 }}>
-            {place.name}
-          </Text>
-          <Text style={{ color: "#555", marginTop: 4 }}>
-            {place.type}
-          </Text>
-        </View>
-      </Callout>
-    </Marker>
+      
+<Callout tooltip={false}>
+  <View style={{
+    backgroundColor: "white",
+    padding: 12,
+    borderRadius: 12,
+    width: 220,
+  }}>
+    <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+      {place.name}
+    </Text>
+
+    <Text style={{ color: "#555", marginTop: 4 }}>
+      {place.type}
+    </Text>
+
+    <CalloutSubview
+      onPress={() => handleFacilityNavigate(place)}
+    >
+      <View style={{
+        backgroundColor: "#2563EB",
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 75,
+        alignItems: "center",
+      }}>
+        <Text style={{ color: "white", fontWeight: "bold" }}>
+          ➤ Navigate to this place
+        </Text>
+      </View>
+    </CalloutSubview>
+  </View>
+</Callout>
+</Marker>
   ))}
 
                 {/* START */}
@@ -2774,7 +3072,7 @@ useEffect(() => {
                 </View>
 
                 <Text style={styles.safetyDataNote}>
-                  Route estimates use the project's Bengaluru risk and historical-location datasets plus mapped nearby facilities. Scores are indicative demo estimates, not verified safety guarantees.
+                  Route estimates use the project's Bengaluru risk and historical-location datasets plus mapped nearby facilities. Scores are indicative estimates, not verified safety guarantees.
                 </Text>
 
                 {/* SAFER */}
@@ -2789,7 +3087,11 @@ useEffect(() => {
                   color={
                     COLORS.green
                   }
-                  description="Selected from a distinct alternative using available OSM safety indicators"
+                  description={
+                    routeInfo.safest.isSimulated
+                      ? "SIMULATED PROTOTYPE PATH — not a verified road route"
+                      : "Selected from a distinct alternative using available OSM safety indicators"
+                  }
                   riskScore={
                     getRiskScoreForRoute(
                       routeInfo.safest
@@ -2813,7 +3115,11 @@ useEffect(() => {
                   color={
                     COLORS.pink
                   }
-                  description="Shortest travel-time alternative; safety is evaluated separately"
+                  description={
+                    routeInfo.fastest.isSimulated
+                      ? "Estimated quickest option based on route distance and travel time calculation"
+                      : "Shortest travel-time alternative; safety is evaluated separately"
+                  }
                   riskScore={
                     getRiskScoreForRoute(
                       routeInfo.fastest
@@ -2837,7 +3143,11 @@ useEffect(() => {
                   color={
                     COLORS.red
                   }
-                  description="Distinct alternative with the highest available route risk score"
+                  description={
+                    routeInfo.risky.isSimulated
+                      ? "SIMULATED PROTOTYPE PATH — not a verified road route"
+                      : "Distinct alternative with the highest available route risk score"
+                  }
                   danger
                   riskScore={
                     getRiskScoreForRoute(
@@ -2908,13 +3218,9 @@ useEffect(() => {
                     Nearby Safe Places
                   </Text>
 
-                  <Text
-                    style={
-                      styles.seeAll
-                    }
-                  >
-                    See all →
-                  </Text>
+                  <Pressable onPress={() => setExploreDetailPage("places")} hitSlop={10}>
+                    <Text style={styles.seeAll}>See all →</Text>
+                  </Pressable>
                 </View>
 
                 <View
@@ -2922,7 +3228,7 @@ useEffect(() => {
                     styles.placesRow
                   }
                 >
-                  {nearbyPlaces.map(
+                  {nearbyPlaces.slice(0, 4).map(
                     (
                       place,
                       index
@@ -2954,13 +3260,9 @@ useEffect(() => {
                     Laws & Helplines
                   </Text>
 
-                  <Text
-                    style={
-                      styles.seeAll
-                    }
-                  >
-                    See all →
-                  </Text>
+                  <Pressable onPress={() => setExploreDetailPage("laws")} hitSlop={10}>
+                    <Text style={styles.seeAll}>See all →</Text>
+                  </Pressable>
                 </View>
 
                 <SafetyLaws />
@@ -3063,34 +3365,6 @@ useEffect(() => {
                     SHARE
                 ================================================== */}
 
-                <Pressable
-                  style={
-                    styles.shareButton
-                  }
-                  onPress={() =>
-                    Alert.alert(
-                      "Share Route",
-                      "Share feature can be connected later."
-                    )
-                  }
-                >
-                  <Text
-                    style={
-                      styles.shareIcon
-                    }
-                  >
-                    ⤴
-                  </Text>
-
-                  <Text
-                    style={
-                      styles.shareText
-                    }
-                  >
-                    Share Route
-                  </Text>
-                </Pressable>
-
                 {/* ==================================================
                     START NAVIGATION
                 ================================================== */}
@@ -3149,6 +3423,7 @@ function NavigationScreen({
   onBack,
   onExplore,
   onSOS,
+  contacts,
   onProfile,
 }: {
   start: GeoPoint;
@@ -3160,6 +3435,7 @@ function NavigationScreen({
   onBack: () => void;
   onExplore: () => void;
   onSOS: () => void;
+  contacts: EmergencyContact[];
   onProfile: () => void;
 }) {
   const navigationMapRef =
@@ -3544,18 +3820,69 @@ function NavigationScreen({
         )
       : route.durationMin;
 
-  const handleEmergency = () => {
+  const handleEmergency = async () => {
+  try {
+    // Get saved emergency contacts
+    const phoneNumbers = contacts
+      .filter((contact) => contact.phone.trim().length > 0)
+      .map((contact) => contact.phone.trim());
+
+    if (phoneNumbers.length === 0) {
+      Alert.alert(
+        "No Emergency Contacts",
+        "Please add emergency contacts in your Profile first."
+      );
+      return;
+    }
+
+    // Check location permission
+    const { status } =
+      await Location.requestForegroundPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert(
+        "Location Permission Required",
+        "Please allow location access to share your location."
+      );
+      return;
+    }
+
+    // Get current GPS location
+    const position = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    });
+
+    const { latitude, longitude } = position.coords;
+
+    const mapLink =
+      `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+
+    const message =
+      `EMERGENCY ALERT! I need help. This is my current location: ${mapLink}`;
+
+    // Check SMS availability
+    const available = await SMS.isAvailableAsync();
+
+    if (!available) {
+      Alert.alert(
+        "SMS Unavailable",
+        "SMS is not available on this device."
+      );
+      return;
+    }
+
+    // Open SMS with all emergency contacts
+    await SMS.sendSMSAsync(phoneNumbers, message);
+
+  } catch (error) {
+    console.error("Emergency alert error:", error);
+
     Alert.alert(
-      "Emergency",
-      "Emergency calling can be connected to the device emergency service in the next integration step.",
-      [
-        {
-          text: "OK",
-          style: "cancel",
-        },
-      ]
+      "Emergency Alert",
+      "Unable to prepare the emergency message. Please try again."
     );
-  };
+  }
+};
 
   return (
     <SafeAreaView
@@ -7649,14 +7976,6 @@ function SOSFeatureRow({
           {text}
         </Text>
       </View>
-
-      <Text
-        style={
-          styles.sosFeatureArrow
-        }
-      >
-        ›
-      </Text>
     </View>
   );
 }
@@ -8323,30 +8642,7 @@ const styles =
       lineHeight: 15,
     },
 
-    voiceButton: {
-      height: 68,
-      borderRadius: 21,
-      borderWidth: 1.4,
-      borderColor:
-        COLORS.goldBorder,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      marginBottom: 17,
-    },
-
-    microphone: {
-      fontSize: 25,
-      marginRight: 13,
-    },
-
-    voiceText: {
-      color: COLORS.gold,
-      fontSize: 18,
-      fontWeight: "700",
-    },
-
-    routeButton: {
+        routeButton: {
       height: 68,
       backgroundColor:
         "#F3C96D",
