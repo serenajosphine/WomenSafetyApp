@@ -10,6 +10,7 @@ import { Collapsible } from '@/components/ui/collapsible';
 import { WebBadge } from '@/components/web-badge';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+const MAPTILER_KEY = process.env.EXPO_PUBLIC_MAPTILER_KEY;
 
 export default function TabTwoScreen() {
   const safeAreaInsets = useSafeAreaInsets();
