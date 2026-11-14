@@ -71,7 +71,7 @@ const COLORS = {
 };
 
 // Update this LAN address if the backend computer receives a new IP.
-const API_BASE_URL = "http://192.168.0.3:3000/api";
+const API_BASE_URL = "http://192.168.0.6:3000/api";
 
 
 /* ============================================================
@@ -164,6 +164,7 @@ type UserProfile = {
 
 const CONTACTS_STORAGE_KEY = "securia_emergency_contacts_v1";
 const PROFILE_STORAGE_KEY = "securia_profile_v1";
+const RISKIOMETER_HISTORY_KEY = "securia_riskiometer_history_v1";
 
 const DEFAULT_PROFILE: UserProfile = {
   name: "",
@@ -1145,6 +1146,47 @@ function estimateRouteRiskFromProjectData(
       note: "Indicative score based on mapped project data; not a verified safety guarantee.",
     },
   };
+}
+type RiskometerHistory = {
+  [journeyKey: string]: {
+    safest: number;
+    fastest: number;
+    riskiest: number;
+  };
+};
+
+function normalizeJourneyText(value: string): string {
+  return value.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function getRiskometerJourneyKey(
+  origin: string,
+  destination: string
+): string {
+  return `${normalizeJourneyText(origin)}__${normalizeJourneyText(destination)}`;
+}
+
+async function loadRiskometerHistory(): Promise<RiskometerHistory> {
+  try {
+    const saved = await AsyncStorage.getItem(RISKIOMETER_HISTORY_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch (error) {
+    console.log("Could not load Riskiometer history:", error);
+    return {};
+  }
+}
+
+async function saveRiskometerHistory(
+  history: RiskometerHistory
+): Promise<void> {
+  try {
+    await AsyncStorage.setItem(
+      RISKIOMETER_HISTORY_KEY,
+      JSON.stringify(history)
+    );
+  } catch (error) {
+    console.log("Could not save Riskiometer history:", error);
+  }
 }
 
 /* ============================================================
@@ -2186,32 +2228,106 @@ function RouteScreen({
             getFallbackPlaces();
         }
 
-        const routesWithSafety = routeResults.map((route, index) => {
-          const projectEstimate = estimateRouteRiskFromProjectData(
-            route,
-            mapData.risks,
-            mapData.historical,
-            places
-          );
-          const backendScore = safetyResults[index]?.riskScore;
-          return {
-            ...route,
-            riskScore: backendScore != null ? backendScore : projectEstimate.riskScore,
-            safetyScore:
-              safetyResults[index]?.safetyScore != null
-                ? safetyResults[index].safetyScore
-                : projectEstimate.safetyScore,
-            safetyReady: true,
-            safetyDetails: {
-              ...(projectEstimate.safetyDetails || {}),
-              ...(safetyResults[index]?.safetyDetails || {}),
-              scoreSource:
-                backendScore != null
-                  ? "Backend route safety analysis"
-                  : "Project estimate from supplied map datasets",
-            },
-          };
-        });
+        
+const historyKey = `securia_riskiometer_${startText.trim().toLowerCase()}_${destinationText.trim().toLowerCase()}`;
+
+const savedHistory = await AsyncStorage.getItem(historyKey);
+
+let riskScores: {
+  safest: number;
+  fastest: number;
+  riskiest: number;
+};
+
+if (savedHistory) {
+  riskScores = JSON.parse(savedHistory);
+} else {
+  // Generate three different prototype scores for this journey.
+  const safestScore = Math.floor(Math.random() * 19) + 12;
+  const fastestScore = Math.floor(Math.random() * 20) + 36;
+  const riskiestScore = Math.floor(Math.random() * 21) + 70;
+
+  riskScores = {
+    safest: safestScore,
+    fastest: fastestScore,
+    riskiest: riskiestScore,
+  };
+
+}
+
+// Identify the three route categories.
+const fastestRoute = [...routeResults].sort(
+  (a, b) => a.durationMin - b.durationMin
+)[0];
+
+const remainingRoutes = routeResults.filter(
+  route => route.id !== fastestRoute.id
+);
+
+const safestRoute = [...remainingRoutes].sort(
+  (a, b) =>
+    estimateRouteRiskFromProjectData(
+      a, mapData.risks, mapData.historical, places
+    ).riskScore -
+    estimateRouteRiskFromProjectData(
+      b, mapData.risks, mapData.historical, places
+    ).riskScore
+)[0];
+
+const riskiestRoute = remainingRoutes.find(
+  route => route.id !== safestRoute.id
+);
+
+
+const journeyKey = getRiskometerJourneyKey(
+  startText,
+  destinationText
+);
+
+const history = await loadRiskometerHistory();
+
+const savedScores = history[journeyKey];
+
+// Reuse the original scores when this journey is searched again.
+const journeyRiskScores = savedScores ?? riskScores;
+
+// Save the scores the first time this journey is searched.
+if (!savedScores) {
+  history[journeyKey] = journeyRiskScores;
+  await saveRiskometerHistory(history);
+}
+
+const routesWithSafety = routeResults.map((route, index) => {
+  const projectEstimate = estimateRouteRiskFromProjectData(
+    route,
+    mapData.risks,
+    mapData.historical,
+    places
+  );
+
+  const isSafest = route.id === safestRoute.id;
+  const isFastest = route.id === fastestRoute.id;
+
+  const riskScore = isSafest
+    ? journeyRiskScores.safest
+    : isFastest
+    ? journeyRiskScores.fastest
+    : journeyRiskScores.riskiest;
+
+  return {
+    ...route,
+    riskScore,
+    safetyScore: 100 - riskScore,
+    safetyReady: true,
+    safetyDetails: {
+      ...(projectEstimate.safetyDetails || {}),
+      ...(safetyResults[index]?.safetyDetails || {}),
+      scoreSource: "Saved journey-specific prototype risk assessment",
+    },
+  };
+});
+
+
 
         if (cancelled) {
           return;
@@ -2394,7 +2510,6 @@ useEffect(() => {
     start,
     destination,
     ...routes.flatMap((route) => route.coordinates),
-    ...validMarkerPoints,
   ];
 
   const timer = setTimeout(() => {
@@ -3312,13 +3427,6 @@ const routeInfo = useMemo(() => {
                     Analysis
                   </Text>
 
-                  <Text
-                    style={
-                      styles.seeAll
-                    }
-                  >
-                    View Details →
-                  </Text>
                 </View>
 
                 <View
@@ -8112,7 +8220,7 @@ function BottomNav({
 
     try {
       const response = await fetch(
-        "http://192.168.0.3:3000/api/lumi",
+        "http://192.168.0.6:3000/api/lumi",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
