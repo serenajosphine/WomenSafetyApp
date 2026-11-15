@@ -131,6 +131,18 @@ type RouteKind =
   | "safer"
   | "fastest"
   | "riskier";
+  type WardInfo = {
+  wardId: string | number;
+  wardName: string;
+};
+
+type RouteWardResult = {
+  id: string;
+  wards: WardInfo[];
+  wardCount: number;
+  sampledPoints: number;
+  unmatchedPoints: number;
+};
 
 // Keeps the most recently generated route alive even when the Explore
 // screen is temporarily unmounted while the user visits Home, SOS,
@@ -2100,6 +2112,13 @@ function RouteScreen({
   ] = useState<
     NearbyPlace[]
   >([]);
+  const [wardResults, setWardResults] = useState<
+  Record<string, RouteWardResult>
+>({});
+
+const [wardLoading, setWardLoading] = useState(false);
+
+const [wardError, setWardError] = useState("");
 
   const [exploreDetailPage, setExploreDetailPage] =
     useState<"places" | "laws" | null>(null);
@@ -2478,6 +2497,101 @@ const handleFacilityNavigate = async (place: NearbyPlace) => {
     setLoading(false);
   }
 };
+
+/* ==========================================================
+   LOAD WARD DETAILS FOR EACH REAL ROUTE
+========================================================== */
+
+useEffect(() => {
+  let active = true;
+
+  const realRoutes = routes.filter(
+    (route) =>
+      !route.isSimulated &&
+      Array.isArray(route.coordinates) &&
+      route.coordinates.length >= 2
+  );
+
+  if (!realRoutes.length) {
+    setWardResults({});
+    setWardError("");
+    setWardLoading(false);
+    return;
+  }
+
+  async function loadWardDetails() {
+    try {
+      setWardLoading(true);
+      setWardError("");
+
+      const response = await fetch(
+        `${API_BASE_URL}/ward-data`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            routes: realRoutes.map((route) => ({
+              id: route.id,
+              coordinates: route.coordinates,
+            })),
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Ward information is currently unavailable."
+        );
+      }
+
+      const result = await response.json();
+
+      if (!result?.success || !Array.isArray(result.routes)) {
+        throw new Error(
+          result?.error || "Could not read ward information."
+        );
+      }
+
+      const nextResults: Record<string, RouteWardResult> = {};
+
+      result.routes.forEach((item: any) => {
+        if (!item?.id) return;
+
+        nextResults[String(item.id)] = {
+          id: String(item.id),
+          wards: Array.isArray(item.wards) ? item.wards : [],
+          wardCount: Number(item.wardCount) || 0,
+          sampledPoints: Number(item.sampledPoints) || 0,
+          unmatchedPoints: Number(item.unmatchedPoints) || 0,
+        };
+      });
+
+      if (active) {
+        setWardResults(nextResults);
+      }
+    } catch (err: any) {
+      if (active) {
+        setWardError(
+          err?.message || "Unable to load ward information."
+        );
+        setWardResults({});
+      }
+    } finally {
+      if (active) {
+        setWardLoading(false);
+      }
+    }
+  }
+
+  loadWardDetails();
+
+  return () => {
+    active = false;
+  };
+}, [routes]);
 
   /* ==========================================================
      MAP FIT
@@ -3275,6 +3389,85 @@ const routeInfo = useMemo(() => {
                     )
                   }
                 />
+
+{/* ==================================================
+    WARDS ALONG SELECTED ROUTE
+================================================== */}
+
+{(() => {
+  const selectedRouteData =
+    selectedRoute === "safer"
+      ? routeInfo.safest
+      : selectedRoute === "fastest"
+      ? routeInfo.fastest
+      : routeInfo.risky;
+
+  const selectedWardData = selectedRouteData
+    ? wardResults[selectedRouteData.id]
+    : undefined;
+
+  return (
+    <View style={styles.wardPanel}>
+      <Text style={styles.wardPanelTitle}>
+        🗺 Wards Along This Route
+      </Text>
+
+      {selectedRouteData?.isSimulated ? (
+        <Text style={styles.wardPanelMessage}>
+          Ward details are unavailable for this simulated route.
+        </Text>
+      ) : wardLoading ? (
+        <View style={styles.wardLoadingRow}>
+          <ActivityIndicator size="small" color={COLORS.gold} />
+          <Text style={styles.wardPanelMessage}>
+            Finding wards along this route...
+          </Text>
+        </View>
+      ) : wardError ? (
+        <Text style={styles.wardPanelMessage}>
+          {wardError}
+        </Text>
+      ) : selectedWardData ? (
+        <>
+          <Text style={styles.wardCountText}>
+            {selectedWardData.wardCount} wards identified
+          </Text>
+
+          {selectedWardData.wards.length > 0 ? (
+            <View style={styles.wardChipWrap}>
+              {selectedWardData.wards.map((ward, index) => (
+                <View
+                  key={String(ward.wardId)}
+                  style={styles.wardChip}
+                >
+                  <Text style={styles.wardChipNumber}>
+                    {index + 1}
+                  </Text>
+
+                  <Text style={styles.wardChipText}>
+                    {ward.wardName || `Ward ${ward.wardId}`}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          ) : (
+            <Text style={styles.wardPanelMessage}>
+              No matching wards were found.
+            </Text>
+          )}
+
+          <Text style={styles.wardFootnote}>
+            Based on sampled route coordinates and Bengaluru 2023 ward boundaries.
+          </Text>
+        </>
+      ) : (
+        <Text style={styles.wardPanelMessage}>
+          Ward information will appear after route analysis.
+        </Text>
+      )}
+    </View>
+  );
+})()}
 
                 {/* ==================================================
                     SAFETY INSIGHTS
@@ -11834,4 +12027,85 @@ const styles =
       marginLeft: 12,
       fontWeight: "800",
     },
-  });
+  
+wardPanel: {
+  backgroundColor: COLORS.card,
+  borderColor: COLORS.cardBorder,
+  borderWidth: 1,
+  borderRadius: 18,
+  padding: 15,
+  marginBottom: 18,
+},
+
+wardPanelTitle: {
+  color: COLORS.gold,
+  fontSize: 15,
+  fontWeight: "800",
+  marginBottom: 8,
+},
+
+wardCountText: {
+  color: COLORS.cream,
+  fontSize: 13,
+  fontWeight: "700",
+  marginBottom: 10,
+},
+
+wardChipWrap: {
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: 8,
+},
+
+wardChip: {
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: "#4A1018",
+  borderColor: "#8B3545",
+  borderWidth: 1,
+  borderRadius: 20,
+  paddingVertical: 7,
+  paddingHorizontal: 10,
+  gap: 7,
+},
+
+wardChipNumber: {
+  color: COLORS.darkText,
+  backgroundColor: COLORS.gold,
+  width: 19,
+  height: 19,
+  borderRadius: 10,
+  textAlign: "center",
+  textAlignVertical: "center",
+  fontSize: 10,
+  fontWeight: "800",
+  overflow: "hidden",
+},
+
+wardChipText: {
+  color: COLORS.cream,
+  fontSize: 11,
+  fontWeight: "600",
+},
+
+wardPanelMessage: {
+  color: COLORS.cream,
+  opacity: 0.8,
+  fontSize: 11,
+  lineHeight: 16,
+  flexShrink: 1,
+},
+
+wardLoadingRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 9,
+},
+
+wardFootnote: {
+  color: COLORS.creamText,
+  fontSize: 9,
+  lineHeight: 14,
+  marginTop: 10,
+},
+});
